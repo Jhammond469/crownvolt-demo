@@ -1,0 +1,263 @@
+<!-- CrownVolt Electrical — standalone ads/DM-traffic landing page, same design system as index.html. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Electrician South East QLD | CrownVolt Electrical</title>
+  <meta name="description" content="Licensed electrician servicing South East QLD. Residential, commercial and maintenance electrical. Free on-site quotes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --c-primary: #0B0D16;
+      --c-primary-dark: #000000;
+      --c-secondary: #D9AF3E;
+      --c-secondary-dark: #B8860B;
+      --c-ink: #111111;
+      --c-body: #555555;
+      --c-muted: #888888;
+      --c-star: #FFD000;
+      --c-canvas: #ffffff;
+      --c-surface-soft: #F5F5F5;
+      --c-hairline: #e8e8e8;
+      --c-hairline-strong: #d0d0d0;
+      --ff-display: 'Montserrat', Helvetica, Arial, sans-serif;
+      --ff-body: 'Open Sans', Arial, sans-serif;
+      --maxw: 1100px;
+      --page-pad: clamp(20px, 5vw, 48px);
+      --r-btn: 3px;
+      --r-card: 5px;
+      --shadow-card: 0 2px 14px rgba(0,0,0,0.10);
+      --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--ff-body); font-size: 15px; color: var(--c-body); background: var(--c-canvas); }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    .inner { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--page-pad); }
+
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ff-display); font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; padding: 14px 28px; border-radius: var(--r-btn); border: 2px solid transparent; cursor: pointer; transition: background 0.2s var(--ease-out), transform 0.15s var(--ease-out); }
+    .btn-primary { background: var(--c-secondary); color: #000; border-color: var(--c-secondary); }
+    .btn-primary:hover { background: var(--c-secondary-dark); border-color: var(--c-secondary-dark); transform: translateY(-1px); }
+
+    .nav { background: var(--c-primary); padding: 16px 0; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav-phone { font-family: var(--ff-display); font-weight: 700; font-size: 15px; color: #fff; display: flex; align-items: center; gap: 8px; }
+    .nav-phone svg { color: var(--c-secondary); }
+
+    .hero { position: relative; min-height: 88vh; display: flex; align-items: center; background: var(--c-primary); overflow: hidden; }
+    .hero-photo { position: absolute; inset: 0; background: url('images/shed-highbay-lights.png') center 15%/cover no-repeat; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(6,7,14,0.92) 0%, rgba(6,7,14,0.70) 48%, rgba(6,7,14,0.30) 100%); }
+    .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; padding: 56px 0; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 10px; color: var(--c-secondary); font-family: var(--ff-display); font-weight: 700; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 24px; }
+    .hero-headline { font-family: var(--ff-display); font-weight: 900; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.04; color: #fff; letter-spacing: -1.5px; }
+    .hero-headline em { font-style: normal; color: var(--c-secondary); }
+    .hero-sub { font-size: 16.5px; line-height: 1.7; color: rgba(255,255,255,0.75); margin-top: 22px; max-width: 480px; }
+    .hero-points { display: flex; flex-direction: column; gap: 10px; margin-top: 26px; }
+    .hero-point { display: flex; align-items: center; gap: 9px; font-family: var(--ff-display); font-weight: 600; font-size: 13.5px; color: #fff; }
+    .hero-point svg { color: var(--c-secondary); flex-shrink: 0; }
+
+    .lead-card { background: #fff; border-radius: var(--r-card); padding: 30px; box-shadow: 0 24px 50px -16px rgba(0,0,0,0.5); }
+    .lead-card h3 { font-family: var(--ff-display); font-weight: 800; font-size: 19px; color: var(--c-ink); margin-bottom: 4px; }
+    .lead-card .sub { font-size: 13px; color: var(--c-muted); margin-bottom: 20px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; font-family: var(--ff-body); font-size: 16px; color: var(--c-ink);
+      background: #fff; border: 1px solid var(--c-hairline-strong); border-radius: var(--r-btn);
+      padding: 12px 14px; outline: none; transition: border-color 0.15s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--c-secondary-dark); }
+    .form-group textarea { resize: none; height: 70px; }
+    .lead-card .btn { width: 100%; justify-content: center; margin-top: 4px; }
+    .lead-card-note { text-align: center; font-size: 11px; color: var(--c-muted); margin-top: 10px; }
+    #form-success { display: none; text-align: center; padding: 14px 0; }
+    #form-success svg { color: var(--c-secondary-dark); margin: 0 auto 8px; }
+    #form-success p { font-size: 13.5px; color: var(--c-body); }
+
+    .trust-strip { background: #000; padding: 16px 0; }
+    .trust-strip-inner { display: flex; justify-content: center; flex-wrap: wrap; gap: 28px; }
+    .trust-item { display: flex; align-items: center; gap: 8px; color: #fff; font-family: var(--ff-display); font-weight: 700; font-size: 12.5px; letter-spacing: 0.5px; }
+    .trust-item svg { color: var(--c-secondary); flex-shrink: 0; }
+
+    .scope { padding: 72px 0; }
+    .scope-head { text-align: center; max-width: 620px; margin: 0 auto 44px; }
+    .section-label { font-family: var(--ff-display); font-weight: 700; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--c-secondary-dark); margin-bottom: 12px; display: block; }
+    .section-title { font-family: var(--ff-display); font-weight: 900; font-size: clamp(24px, 3vw, 34px); color: var(--c-ink); letter-spacing: -0.5px; margin-bottom: 12px; }
+    .section-sub { font-size: 15.5px; color: var(--c-body); line-height: 1.6; }
+    .scope-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .scope-card { background: var(--c-surface-soft); border-radius: var(--r-card); padding: 26px 22px; }
+    .scope-icon { width: 42px; height: 42px; border-radius: 50%; background: var(--c-primary); color: var(--c-secondary); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .scope-card h3 { font-family: var(--ff-display); font-weight: 700; font-size: 14.5px; color: var(--c-ink); margin-bottom: 6px; }
+    .scope-card p { font-size: 12.5px; color: var(--c-body); line-height: 1.6; }
+
+    /* Real-photos strip (own IG photos, not stock) */
+    .photo-strip { padding: 0 0 72px; }
+    .photo-strip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .photo-strip-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--r-card); }
+    .photo-strip-caption { text-align: center; font-size: 12.5px; color: var(--c-muted); margin-top: 14px; }
+
+    .closing { background: var(--c-secondary); padding: 56px 0; text-align: center; }
+    .closing h2 { font-family: var(--ff-display); font-weight: 900; font-size: clamp(24px, 3.4vw, 34px); color: #000; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .closing p { font-size: 15.5px; color: rgba(0,0,0,0.7); margin-bottom: 24px; }
+
+    .footer { background: #000; padding: 22px 0; text-align: center; font-size: 12.5px; color: rgba(255,255,255,0.4); }
+    .footer a { color: rgba(255,255,255,0.4); }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; padding: 40px 0; }
+      .scope-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .scope-grid { grid-template-columns: 1fr; }
+      .photo-strip-grid { grid-template-columns: 1fr 1fr; }
+      .trust-strip-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+      .hero-headline { font-size: 32px; }
+    }
+    @media (max-width: 768px) {
+      .form-group input, .form-group select, .form-group textarea { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="inner nav-inner">
+      <a href="index.html"><img src="logo.png" alt="CrownVolt Electrical" style="height:40px;width:auto;" /></a>
+      <a href="tel:0430064848" class="nav-phone">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.36C1.54 2.18 2.44 1 3.62 1h3a2 2 0 0 1 2 1.72c.13 1 .36 1.97.71 2.91a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 5.35 5.35l.99-.99a2 2 0 0 1 2.11-.45c.94.35 1.91.58 2.91.71A2 2 0 0 1 22 16.92z"/></svg>
+        0430 064 848
+      </a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-photo"></div>
+    <div class="hero-overlay"></div>
+    <div class="inner hero-grid">
+      <div>
+        <div class="hero-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          Licensed Electrician · South East QLD
+        </div>
+        <h1 class="hero-headline">Electrical Work, <em>Done Right, First Time.</em></h1>
+        <p class="hero-sub">Lucas visits your space, then gives you a real fixed-price number — not a guess over the phone. Residential, commercial and maintenance electrical across South East QLD.</p>
+        <div class="hero-points">
+          <div class="hero-point"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Free on-site quote before work starts</div>
+          <div class="hero-point"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Licensed &amp; insured</div>
+          <div class="hero-point"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>You deal directly with Lucas</div>
+        </div>
+      </div>
+
+      <div class="lead-card">
+        <h3>Free On-Site Quote</h3>
+        <p class="sub">Lucas visits your space, then gives you a real fixed-price number — not a guess over the phone.</p>
+        <form id="lead-form">
+          <div class="form-group"><input type="text" placeholder="Your Name" required /></div>
+          <div class="form-group"><input type="tel" placeholder="Phone Number" required /></div>
+          <div class="form-group"><input type="email" placeholder="Email" required /></div>
+          <div class="form-group">
+            <select required>
+              <option value="" disabled selected>What's the job?</option>
+              <option>Residential</option>
+              <option>Commercial</option>
+              <option>Maintenance</option>
+              <option>Emergency Call</option>
+            </select>
+          </div>
+          <div class="form-group"><textarea placeholder="Tell us what you need..."></textarea></div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <p class="lead-card-note">No obligation. We'll call to lock in a time.</p>
+        </form>
+        <div id="form-success">
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg>
+          <p>Thanks — Lucas will call to lock in a time for your free site visit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="trust-strip">
+    <div class="inner trust-strip-inner">
+      <div class="trust-item"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Licensed &amp; Insured</div>
+      <div class="trust-item"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Fast Response</div>
+      <div class="trust-item"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Fixed Pricing</div>
+      <div class="trust-item"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Direct With Lucas</div>
+    </div>
+  </div>
+
+  <section class="scope">
+    <div class="inner">
+      <div class="scope-head">
+        <span class="section-label">What's Covered</span>
+        <h2 class="section-title">An Electrician Who Handles the Whole Job</h2>
+        <p class="section-sub">Residential, commercial and maintenance — from a single power point to a full fit-out.</p>
+      </div>
+      <div class="scope-grid">
+        <div class="scope-card">
+          <div class="scope-icon"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <h3>Residential</h3>
+          <p>Lighting upgrades, power points and complete rewiring for the home.</p>
+        </div>
+        <div class="scope-card">
+          <div class="scope-icon"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/></svg></div>
+          <h3>Commercial</h3>
+          <p>Installations and maintenance for businesses of all sizes.</p>
+        </div>
+        <div class="scope-card">
+          <div class="scope-icon"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <h3>Maintenance</h3>
+          <p>Preventive checks that catch problems before they become failures.</p>
+        </div>
+        <div class="scope-card">
+          <div class="scope-icon"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h3>Emergency Calls</h3>
+          <p>Fast response for urgent electrical faults and outages.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="photo-strip">
+    <div class="inner">
+      <div class="photo-strip-grid">
+        <img src="images/bathroom-checkerboard-tub.png" alt="Real CrownVolt bathroom renovation — checkerboard floor and freestanding tub" loading="lazy" />
+        <img src="images/shed-highbay-lights.png" alt="Real CrownVolt shed fit-out — highbay lighting" loading="lazy" />
+        <img src="images/bathroom-vanity-oval-mirror.png" alt="Real CrownVolt bathroom renovation — backlit LED mirror" loading="lazy" />
+      </div>
+      <p class="photo-strip-caption">Real jobs, not stock photos — from CrownVolt's own recent work.</p>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="inner">
+      <h2>Tell us about the job</h2>
+      <p>Two minutes now saves a scheduling headache later.</p>
+      <a href="tel:0430064848" class="btn" style="background:#000;color:#fff;border-color:#000;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.36C1.54 2.18 2.44 1 3.62 1h3a2 2 0 0 1 2 1.72c.13 1 .36 1.97.71 2.91a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 5.35 5.35l.99-.99a2 2 0 0 1 2.11-.45c.94.35 1.91.58 2.91.71A2 2 0 0 1 22 16.92z"/></svg>
+        Call 0430 064 848
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="inner">&copy; 2026 CrownVolt Electrical · <a href="index.html">Back to full site</a></div>
+  </footer>
+
+  <script>
+    document.getElementById('lead-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = e.target.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      setTimeout(function () {
+        e.target.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      }, 600);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!-- CrownVolt Electrical — Ops Dashboard bolt-on preview. Static mockup only (no backend, no real data) built to show Lucas what the Syntra ops dashboard product looks like with his own branding. All leads/stats below are clearly-labelled example data, not real CrownVolt figures — see the banner and every card. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrownVolt Ops Dashboard | Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --c-primary: #0B0D16;
+      --c-secondary: #D9AF3E;
+      --c-secondary-dark: #B8860B;
+      --c-ink: #111111;
+      --c-body: #555555;
+      --c-muted: #888888;
+      --c-canvas: #ffffff;
+      --c-surface: #F6F6F8;
+      --c-surface-soft: #F5F5F5;
+      --c-hairline: #e8e8e8;
+      --ff-display: 'Montserrat', Helvetica, Arial, sans-serif;
+      --ff-body: 'Open Sans', Arial, sans-serif;
+      --r-card: 8px;
+      --r-btn: 4px;
+    }
+    * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--ff-body); color: var(--c-ink); background: var(--c-surface); }
+    img { display: block; max-width: 100%; }
+
+    /* Demo banner */
+    .demo-banner { background: var(--c-secondary); color: #000; font-family: var(--ff-display); font-weight: 700; font-size: 12.5px; letter-spacing: 0.3px; text-align: center; padding: 9px 16px; }
+
+    .layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar { background: var(--c-primary); color: #fff; padding: 24px 18px; display: flex; flex-direction: column; }
+    .sidebar-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 36px; padding: 0 6px; }
+    .sidebar-logo img { height: 34px; width: auto; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+    .sidebar-link { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: var(--r-btn); font-family: var(--ff-display); font-weight: 600; font-size: 13.5px; color: rgba(255,255,255,0.6); cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .sidebar-link svg { flex-shrink: 0; }
+    .sidebar-link:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .sidebar-link.active { background: rgba(217,175,62,0.14); color: var(--c-secondary); }
+    .sidebar-foot { margin-top: auto; padding: 14px 12px; font-size: 11.5px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+
+    /* Main */
+    .main { padding: 32px 40px 60px; }
+    .main-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 14px; }
+    .main-head h1 { font-family: var(--ff-display); font-weight: 900; font-size: 26px; letter-spacing: -0.5px; }
+    .main-head p { font-size: 13.5px; color: var(--c-muted); margin-top: 4px; }
+    .example-tag { display: inline-flex; align-items: center; gap: 6px; background: #FFF4DC; color: #8A6300; font-family: var(--ff-display); font-weight: 700; font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; border: 1px solid #F0DCA0; }
+
+    /* Stat cards */
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 36px; }
+    .stat-card { background: var(--c-canvas); border-radius: var(--r-card); padding: 20px 22px; border: 1px solid var(--c-hairline); }
+    .stat-card .label { font-family: var(--ff-display); font-weight: 600; font-size: 12px; letter-spacing: 0.3px; color: var(--c-muted); margin-bottom: 10px; }
+    .stat-card .value { font-family: var(--ff-display); font-weight: 900; font-size: 30px; color: var(--c-ink); line-height: 1; }
+    .stat-card .delta { font-size: 12px; color: #1A9E5C; font-weight: 600; margin-top: 8px; display: flex; align-items: center; gap: 4px; }
+
+    /* Section head */
+    .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .section-head h2 { font-family: var(--ff-display); font-weight: 800; font-size: 16px; }
+    .view-toggle { display: flex; background: var(--c-surface-soft); border-radius: var(--r-btn); padding: 3px; gap: 2px; }
+    .view-toggle span { font-family: var(--ff-display); font-weight: 600; font-size: 12px; padding: 6px 14px; border-radius: 3px; color: var(--c-muted); }
+    .view-toggle span.active { background: #fff; color: var(--c-ink); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* Kanban */
+    .kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+    .kanban-col { background: var(--c-surface-soft); border-radius: var(--r-card); padding: 14px; }
+    .kanban-col-head { display: flex; justify-content: space-between; align-items: center; font-family: var(--ff-display); font-weight: 700; font-size: 12px; letter-spacing: 0.4px; text-transform: uppercase; color: var(--c-body); padding: 4px 6px 12px; }
+    .kanban-col-head .count { background: #e4e4e8; color: var(--c-body); border-radius: 999px; font-size: 11px; padding: 1px 8px; }
+    .lead-card { background: #fff; border-radius: 6px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--c-hairline); box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+    .lead-card .name { font-family: var(--ff-display); font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
+    .lead-card .job { font-size: 12.5px; color: var(--c-body); margin-bottom: 10px; line-height: 1.4; }
+    .lead-card .meta { display: flex; justify-content: space-between; align-items: center; }
+    .lead-card .src { font-size: 10.5px; font-weight: 600; color: var(--c-secondary-dark); background: #FBF3DF; padding: 2px 8px; border-radius: 999px; }
+    .lead-card .val { font-family: var(--ff-display); font-weight: 800; font-size: 12.5px; color: var(--c-ink); }
+
+    /* Revenue */
+    .revenue-panel { background: var(--c-canvas); border: 1px solid var(--c-hairline); border-radius: var(--r-card); padding: 24px; margin-bottom: 20px; }
+    .revenue-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 4px; border-bottom: 1px solid var(--c-hairline); font-size: 13.5px; }
+    .revenue-row:last-child { border-bottom: none; }
+    .revenue-row .job { font-weight: 600; }
+    .revenue-row .date { color: var(--c-muted); font-size: 12px; }
+    .revenue-row .amt { font-family: var(--ff-display); font-weight: 800; }
+    .revenue-row .paid { color: #1A9E5C; font-size: 11px; font-weight: 700; background: #E8F8EF; padding: 2px 9px; border-radius: 999px; margin-left: 10px; }
+
+    @media (max-width: 1000px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { flex-direction: row; align-items: center; padding: 14px 18px; }
+      .sidebar-nav { flex-direction: row; }
+      .sidebar-foot { display: none; }
+      .stat-grid, .kanban { grid-template-columns: 1fr 1fr; }
+      .main { padding: 24px 20px 50px; }
+    }
+    @media (max-width: 600px) {
+      .stat-grid, .kanban { grid-template-columns: 1fr; }
+      .sidebar-nav span.label { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="demo-banner">PREVIEW — Example data shown throughout. This is what your dashboard could look like, not your real numbers.</div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="logo.png" alt="CrownVolt Electrical" style="height:30px;width:auto;" />
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-link active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          <span class="label">Overview</span>
+        </div>
+        <div class="sidebar-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="label">Pipeline</span>
+        </div>
+        <div class="sidebar-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span class="label">Revenue</span>
+        </div>
+      </nav>
+      <div class="sidebar-foot">CrownVolt Electrical<br>Ops Dashboard · Preview</div>
+    </aside>
+
+    <main class="main">
+      <div class="main-head">
+        <div>
+          <h1>Overview</h1>
+          <p>Everything coming in, at a glance.</p>
+        </div>
+        <span class="example-tag">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Example Data
+        </span>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="label">NEW LEADS THIS MONTH</div>
+          <div class="value">14</div>
+          <div class="delta">↑ from 9 last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">QUOTES SENT</div>
+          <div class="value">9</div>
+          <div class="delta">↑ from 6 last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">JOBS WON</div>
+          <div class="value">6</div>
+          <div class="delta">↑ from 4 last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">REVENUE (EST.)</div>
+          <div class="value">$18.4k</div>
+          <div class="delta">↑ from $12.1k last month</div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <h2>Pipeline</h2>
+        <div class="view-toggle"><span class="active">Board</span><span>Table</span></div>
+      </div>
+      <div class="kanban">
+        <div class="kanban-col">
+          <div class="kanban-col-head">New <span class="count">3</span></div>
+          <div class="lead-card">
+            <div class="name">B. Whitfield</div>
+            <div class="job">Switchboard upgrade — Capalaba</div>
+            <div class="meta"><span class="src">Website</span><span class="val">Quote pending</span></div>
+          </div>
+          <div class="lead-card">
+            <div class="name">R. Coetzer</div>
+            <div class="job">3x bathroom powerpoints — Wynnum</div>
+            <div class="meta"><span class="src">Instagram</span><span class="val">Quote pending</span></div>
+          </div>
+          <div class="lead-card">
+            <div class="name">M. Sagigi</div>
+            <div class="job">Shed highbay lighting — Redland Bay</div>
+            <div class="meta"><span class="src">Referral</span><span class="val">Quote pending</span></div>
+          </div>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col-head">Contacted <span class="count">3</span></div>
+          <div class="lead-card">
+            <div class="name">T. Okafor</div>
+            <div class="job">Full home rewire — Manly West</div>
+            <div class="meta"><span class="src">Website</span><span class="val">Site visit booked</span></div>
+          </div>
+          <div class="lead-card">
+            <div class="name">S. Delacroix</div>
+            <div class="job">Office fit-out — Cleveland</div>
+            <div class="meta"><span class="src">Google</span><span class="val">Site visit booked</span></div>
+          </div>
+          <div class="lead-card">
+            <div class="name">J. Prentice</div>
+            <div class="job">Smoke alarm compliance — Alexandra Hills</div>
+            <div class="meta"><span class="src">Instagram</span><span class="val">Callback tomorrow</span></div>
+          </div>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col-head">Quoted <span class="count">2</span></div>
+          <div class="lead-card">
+            <div class="name">A. Fenech</div>
+            <div class="job">Ensuite reno — 4x downlights, exhaust fan</div>
+            <div class="meta"><span class="src">Website</span><span class="val">$1,240</span></div>
+          </div>
+          <div class="lead-card">
+            <div class="name">K. Vuong</div>
+            <div class="job">EV charger install — Birkdale</div>
+            <div class="meta"><span class="src">Referral</span><span class="val">$2,100</span></div>
+          </div>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col-head">Won <span class="count">2</span></div>
+          <div class="lead-card">
+            <div class="name">D. Halloran</div>
+            <div class="job">Shed sub board + PowerPoints</div>
+            <div class="meta"><span class="src">Instagram</span><span class="val">$1,850</span></div>
+          </div>
+          <div class="lead-card">
+            <div class="name">C. Novak</div>
+            <div class="job">Bathroom reno — full electrical</div>
+            <div class="meta"><span class="src">Website</span><span class="val">$3,400</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <h2>Recent Payments</h2>
+      </div>
+      <div class="revenue-panel">
+        <div class="revenue-row">
+          <div><span class="job">C. Novak — Bathroom reno electrical</span> <span class="paid">Paid</span></div>
+          <div><span class="date" style="margin-right:16px;">3 Aug</span><span class="amt">$3,400.00</span></div>
+        </div>
+        <div class="revenue-row">
+          <div><span class="job">D. Halloran — Shed sub board</span> <span class="paid">Paid</span></div>
+          <div><span class="date" style="margin-right:16px;">29 Jul</span><span class="amt">$1,850.00</span></div>
+        </div>
+        <div class="revenue-row">
+          <div><span class="job">L. Marsters — Emergency callout</span> <span class="paid">Paid</span></div>
+          <div><span class="date" style="margin-right:16px;">24 Jul</span><span class="amt">$320.00</span></div>
+        </div>
+        <div class="revenue-row">
+          <div><span class="job">P. Yiannoulis — Lighting upgrade</span> <span class="paid">Paid</span></div>
+          <div><span class="date" style="margin-right:16px;">18 Jul</span><span class="amt">$980.00</span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
