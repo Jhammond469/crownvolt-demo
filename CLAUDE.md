@@ -1,17 +1,18 @@
 # CrownVolt Electrical — Project Context
 
-## Status: WARM — converting, not yet signed/paid
-Lucas has engaged (2026-08-24): giving Josh his Wix login so Josh can build the real site, and
-Josh will send the "get started" link (syntrasoftware.com/get-started) for Lucas to pick a tier
-and bolt-ons — payment happens after that. **Not a done deal yet** — no password handed over,
-no tier picked, no payment. This full-site rebuild is what Josh sends Lucas as the finished
-product before that happens.
+## Status: LIVE at real domain — still not signed/paid
+**2026-08-25: site taken live at Lucas's real domain, crownvolt.com.au.** Josh got Lucas's Wix
+login and asked to make the rebuilt site live ahead of any tier pick/payment (explicit call —
+Lucas hasn't signed or paid yet). Domain now points at the Vercel deployment instead of the old
+Wix placeholder — see "Deployed" section below for exact DNS changes made.
 
-⚠ **The "get started" form is currently broken in production** — no `SENDGRID_API_KEY` set for
-the `Syntra-Website-Final` Vercel project, so submissions silently fail (503, logged to a server
-console nobody watches). Fix this **before** sending Lucas the link, or his submission will never
-reach Josh's inbox. See [[client_analytics_system]] memory, 2026-08-24 entry, for the full
-investigation.
+Lucas has engaged (2026-08-24): gave Josh his Wix login so Josh could build the real site.
+Josh still needs to send Lucas the `syntrasoftware.com/get-started` link for him to pick a
+tier/bolt-ons — payment happens after that. **Not a done deal yet** — no tier picked, no payment,
+site is live as a courtesy/momentum move, not because the deal closed.
+
+The get-started form's SendGrid outage (see [[client_analytics_system]]) is fully fixed —
+switched to Resend, confirmed delivering. No longer a blocker for sending Lucas this link.
 
 ## Prospect
 - **Business:** CrownVolt Electrical
@@ -43,6 +44,21 @@ used by every other Syntra client site (ProCircuit/Powerluxe/SEQ DirtWorx) — s
   untouched this session — still demo/example data only).
 
 Brand colours navy `#0B0D16` + gold `#D9AF3E`, matched to their real logo (unchanged).
+
+## Real assets — refreshed again 2026-08-25
+Lucas sent 6 more phone photos of the same black kitchen reno (pendant lighting + LED under-bench
+strip) already featured on the site. Two were duplicates (one exact byte-for-byte, one a
+near-identical composition) — kept but not wired into any page, saved in
+`images/unused-duplicates/`. The 4 genuinely distinct shots were added: `kitchen-full-room-wide.jpg`
+now replaces the old `kitchen-pendant-lighting-reno.jpg` as the `services.html` page-hero (same
+subject, cleaner/sharper angle); `kitchen-led-underbench-strip.jpg` (a dramatic close-up of the
+LED strip lighting — the most electrically-relevant new shot), `kitchen-island-benchtop-tap.jpg`
+and `kitchen-splashback-fridge-angle.jpg` were added as new gallery tiles on both `index.html`
+and `services.html`'s galleries, giving the kitchen reno a full dedicated row on `services.html`
+rather than the single tile it had before. The original `kitchen-pendant-lighting-reno.jpg` is
+still referenced once — the `index.html` gallery tile it was already in was left untouched, so
+that page now shows both the original photo and the 2 new kitchen tiles (5 kitchen photos total
+across the two galleries combined, out of a real, unusually photogenic job).
 
 ## Real assets — refreshed 2026-08-24
 **10 real, full-resolution photos supplied directly** (found in `Photo's/` — IMG_8240–8255,
@@ -81,15 +97,35 @@ Deliberately not installed — CrownVolt isn't a real property yet. Add a GA4 pr
 sign on, matching every other live client site.
 
 ## Deployed
-- **Live at:** https://jhammond469.github.io/crownvolt-demo/ (+ `/landing.html`, `/dashboard.html`)
-- **Repo:** github.com/Jhammond469/crownvolt-demo (public)
+- **Live at the real domain:** https://crownvolt.com.au and https://www.crownvolt.com.au —
+  cut over 2026-08-25. Also still live at https://crownvolt-demo.vercel.app (same deployment)
+  and https://jhammond469.github.io/crownvolt-demo/ (older GitHub Pages copy, now superseded).
+- **Repo:** github.com/Jhammond469/crownvolt-demo (public), deployed to Vercel project
+  `crownvolt-demo` (org `jhammond469s-projects`).
+- **DNS cutover detail (2026-08-25):** domain registrar/DNS host is Wix (nameservers
+  `ns6/ns7.wixdns.net`, registrar is actually Tucows/OpenSRS per whois) — did NOT move
+  nameservers to Vercel, instead edited Wix's own DNS records (Settings > Domains > Domain
+  Actions "..." menu > Manage DNS Records — this menu is easy to miss, buried behind a
+  three-dot icon that can get clipped off-screen in narrow viewports). Removed Wix's 3 old A
+  records (185.230.63.107/.186/.171) and Wix's `www` CNAME (→ cdn1.wixdns.net), added two new A
+  records: `crownvolt.com.au → 76.76.21.21` and `www.crownvolt.com.au → 76.76.21.21` (Vercel's
+  IP, from `vercel domains inspect crownvolt.com.au`). **Email (Microsoft 365/Outlook) was not
+  touched** — MX (`crownvolt-com-au.mail.protection.outlook.com`), SPF TXT, the `MS=` verification
+  TXT, and the `autodiscover`/`enterpriseenrollment`/`enterpriseregistration`/`lyncdiscover`/`sip`
+  CNAMEs are separate record types/entries from the site's A records, confirmed via `dig`
+  before and after the change. Verified live via `dig` (both root and www resolving to
+  76.76.21.21) and a real HTTP fetch of the production domain returning the new site's content
+  — HTTPS took a few minutes after the DNS change for Vercel to auto-issue the certificate,
+  same as any newly-pointed domain.
+- Domain was already registered to the Vercel project (`vercel domains add`) in an earlier
+  session — this cutover was purely the DNS-record change on Wix's side.
 
 ## Next steps (priority order)
-1. **Fix the `get-started` SendGrid key** before sending Lucas anything — otherwise his
-   submission vanishes silently. See the warning at the top of this file.
-2. Send Lucas the finished site + the `get-started` link.
-3. Once he picks a tier and the password/domain access comes through: replace demo-safe forms
-   with a real n8n webhook (checking field names carefully), add a real GA4 property + event
-   tracking, and get real facts/photos directly from him if there's anything better than what's
-   already here.
-4. If real Google reviews land, replace the "coming soon" placeholder.
+1. Get Lucas to actually pick a tier via `syntrasoftware.com/get-started` and pay — the site
+   going live ahead of that was a deliberate goodwill/momentum move, not a signal the deal is
+   done. Don't treat this as closed.
+2. Once he picks a tier: replace demo-safe forms with a real n8n webhook (checking field names
+   carefully — see the SEQ DirtWorx field-name bug in [[client_analytics_system]]), add a real
+   GA4 property + event tracking, and get real facts/photos directly from him if there's
+   anything better than what's already here.
+3. If real Google reviews land, replace the "coming soon" placeholder.
