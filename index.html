@@ -9,6 +9,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M3LS2122NC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M3LS2122NC');
+  </script>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,7 +30,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
-  <!-- No GA4 tag wired yet — CrownVolt hasn't signed on, nothing real to measure. -->
 </head>
 <body>
 
@@ -103,17 +110,19 @@
         <h3>Free On-Site Quote</h3>
         <p class="sub">Lucas visits your space, then gives you a real fixed-price number — not a guess over the phone.</p>
         <form id="heroLeadForm">
-          <div class="hero-form-group"><input type="text" placeholder="Your Name" required /></div>
-          <div class="hero-form-group"><input type="tel" placeholder="Phone Number" required /></div>
-          <div class="hero-form-group"><input type="email" placeholder="Email" required /></div>
-          <div class="hero-form-group"><textarea placeholder="What's the job? (optional)"></textarea></div>
-          <button type="submit" class="btn btn-primary">Book My Free Site Visit</button>
+          <div class="hero-form-group"><input type="text" name="name" placeholder="Your Name" required /></div>
+          <div class="hero-form-group"><input type="tel" name="phone" placeholder="Phone Number" required /></div>
+          <div class="hero-form-group"><input type="email" name="email" placeholder="Email" required /></div>
+          <div class="hero-form-group"><textarea name="message" placeholder="What's the job? (optional)"></textarea></div>
+          <input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off" />
+          <button type="submit" class="btn btn-primary" id="heroFormBtn">Book My Free Site Visit</button>
         </form>
         <p class="hero-lead-note">No obligation. We'll call to lock in a time.</p>
         <div id="heroFormSuccess">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg>
           <p>Thanks — Lucas will call to lock in a time for your free site visit.</p>
         </div>
+        <div id="heroFormError">Something went wrong — please call Lucas directly on <a href="tel:0430064848" style="color:var(--c-secondary-dark);font-weight:700;">0430 064 848</a>.</div>
       </div>
     </div>
   </section>

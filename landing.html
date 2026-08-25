@@ -2,6 +2,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M3LS2122NC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M3LS2122NC');
+  </script>
+  <script>
+    // Click-to-call event tracking — this page doesn't load main.js, so it needs its own copy.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href^="tel:"]');
+      if (a && typeof gtag === 'function') {
+        gtag('event', 'click_to_call', { phone_number: a.getAttribute('href').replace('tel:', '') });
+      }
+    });
+  </script>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -77,6 +94,7 @@
     #form-success { display: none; text-align: center; padding: 14px 0; }
     #form-success svg { color: var(--c-secondary-dark); margin: 0 auto 8px; }
     #form-success p { font-size: 13.5px; color: var(--c-body); }
+    #form-error { display: none; text-align: center; padding: 10px 0; font-size: 13px; color: #b3261e; }
 
     .trust-strip { background: #000; padding: 16px 0; }
     .trust-strip-inner { display: flex; justify-content: center; flex-wrap: wrap; gap: 28px; }
@@ -156,11 +174,11 @@
         <h3>Free On-Site Quote</h3>
         <p class="sub">Lucas visits your space, then gives you a real fixed-price number — not a guess over the phone.</p>
         <form id="lead-form">
-          <div class="form-group"><input type="text" placeholder="Your Name" required /></div>
-          <div class="form-group"><input type="tel" placeholder="Phone Number" required /></div>
-          <div class="form-group"><input type="email" placeholder="Email" required /></div>
+          <div class="form-group"><input type="text" name="name" placeholder="Your Name" required /></div>
+          <div class="form-group"><input type="tel" name="phone" placeholder="Phone Number" required /></div>
+          <div class="form-group"><input type="email" name="email" placeholder="Email" required /></div>
           <div class="form-group">
-            <select required>
+            <select name="job_type" required>
               <option value="" disabled selected>What's the job?</option>
               <option>Residential</option>
               <option>Commercial</option>
@@ -168,14 +186,16 @@
               <option>Emergency Call</option>
             </select>
           </div>
-          <div class="form-group"><textarea placeholder="Tell us what you need..."></textarea></div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <div class="form-group"><textarea name="message" placeholder="Tell us what you need..."></textarea></div>
+          <input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off" />
+          <button type="submit" class="btn btn-primary" id="leadFormBtn">Submit</button>
           <p class="lead-card-note">No obligation. We'll call to lock in a time.</p>
         </form>
         <div id="form-success">
           <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg>
           <p>Thanks — Lucas will call to lock in a time for your free site visit.</p>
         </div>
+        <div id="form-error">Something went wrong — please call Lucas directly on <a href="tel:0430064848" style="color:var(--c-secondary-dark);font-weight:700;">0430 064 848</a>.</div>
       </div>
     </div>
   </section>
@@ -248,15 +268,49 @@
   </footer>
 
   <script>
-    document.getElementById('lead-form').addEventListener('submit', function (e) {
+    var WEBHOOK_URL = 'https://jhammond.app.n8n.cloud/webhook/crownvolt-contact';
+    var leadForm = document.getElementById('lead-form');
+    var leadBtn = document.getElementById('leadFormBtn');
+    var leadSuccess = document.getElementById('form-success');
+    var leadError = document.getElementById('form-error');
+
+    leadForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      var btn = e.target.querySelector('button[type="submit"]');
-      btn.disabled = true;
-      btn.textContent = 'Sending...';
-      setTimeout(function () {
-        e.target.style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
-      }, 600);
+
+      if (leadForm.querySelector('[name="_hp"]').value) return; // honeypot tripped, silently drop
+
+      if (typeof gtag === 'function') gtag('event', 'form_submit', { form_id: 'lead-form' });
+
+      leadBtn.disabled = true;
+      leadBtn.textContent = 'Sending...';
+      leadError.style.display = 'none';
+
+      var data = {
+        name: leadForm.querySelector('[name="name"]').value,
+        phone: leadForm.querySelector('[name="phone"]').value,
+        email: leadForm.querySelector('[name="email"]').value,
+        service: leadForm.querySelector('[name="job_type"]').value,
+        message: leadForm.querySelector('[name="message"]').value,
+        source: 'landing-page'
+      };
+
+      fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (res) {
+        if (res.ok) {
+          leadForm.style.display = 'none';
+          leadSuccess.style.display = 'block';
+        } else {
+          leadError.style.display = 'block';
+        }
+      }).catch(function () {
+        leadError.style.display = 'block';
+      }).finally(function () {
+        leadBtn.disabled = false;
+        leadBtn.textContent = 'Submit';
+      });
     });
   </script>
 </body>

@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M3LS2122NC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M3LS2122NC');
+  </script>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -114,8 +122,9 @@
             </div>
             <div class="form-group"><label for="message">Tell Us About Your Project</label><textarea id="message" name="message" placeholder="Describe what you need…" required></textarea></div>
             <input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off" />
-            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Submit</button>
+            <button type="submit" class="btn btn-primary" id="formBtn" style="width:100%;justify-content:center;">Submit</button>
             <div class="form-success" id="formSuccess">Thanks! We'll be in touch within 24 hours.</div>
+            <div class="form-error" id="formError">Something went wrong — please call us directly on <a href="tel:0430064848" style="color:#b3261e;font-weight:800;">0430 064 848</a>.</div>
           </form>
         </div>
       </div>
