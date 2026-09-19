@@ -8,4 +8,7 @@ Disallow: /landing.html
 # Ops Dashboard preview — example/sample data only, not real CrownVolt figures.
 Disallow: /dashboard.html
 
+# Internal job-complete trigger for the review automation. Not for search.
+Disallow: /job-done.html
+
 Sitemap: https://crownvolt.com.au/sitemap.xml

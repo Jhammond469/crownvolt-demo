@@ -1,0 +1,132 @@
+<!-- CrownVolt internal tool — NOT part of the public site. No nav link, disallowed in
+     robots.txt. This is the "job complete" trigger for the review-request automation:
+     Lucas opens it on his phone after a job, types the customer's first name + mobile,
+     and n8n texts them a Google review link 2 hours later.
+
+     Chosen over hooking into an invoicing app on purpose — per Syntra's earlier attempts,
+     clients refused to connect automations to their accounting software. This needs no
+     third-party access at all.
+
+     BEFORE GOING LIVE: set SHARED_TOKEN below to match the token in the n8n workflow
+     "CrownVolt - Review Request". The token is visible in page source, so it is obscurity
+     plus a shared secret, not real authentication — it stops drive-by abuse of a public
+     URL. Actual spend is capped by the Kudosity credit balance. If this ever gets abused,
+     move the trigger behind a real login. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Job Done — CrownVolt</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0B0D16" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0B0D16;color:#fff;font-family:'Open Sans',system-ui,sans-serif;min-height:100vh;padding:24px 18px 48px;-webkit-font-smoothing:antialiased}
+    .wrap{max-width:460px;margin:0 auto}
+    .logo{display:block;height:54px;width:auto;margin:8px auto 28px}
+    h1{font-family:'Montserrat',sans-serif;font-size:1.45rem;font-weight:800;text-align:center;letter-spacing:-.01em}
+    .sub{text-align:center;color:#9aa1b4;font-size:.92rem;margin:8px 0 28px;line-height:1.5}
+    label{display:block;font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#D9AF3E;margin:0 0 8px}
+    input{width:100%;padding:16px 15px;font-size:1.05rem;font-family:inherit;color:#fff;background:#151826;border:1px solid #2a2f42;border-radius:12px;outline:none}
+    input:focus{border-color:#D9AF3E}
+    .field{margin-bottom:20px}
+    button{width:100%;padding:18px;font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#0B0D16;background:#D9AF3E;border:0;border-radius:12px;cursor:pointer;margin-top:6px}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .msg{display:none;margin-top:20px;padding:15px;border-radius:12px;font-size:.94rem;line-height:1.5}
+    .msg.show{display:block}
+    .ok{background:rgba(46,160,90,.14);border:1px solid rgba(46,160,90,.5);color:#7ee0a5}
+    .bad{background:rgba(200,50,40,.14);border:1px solid rgba(200,50,40,.5);color:#ff9a90}
+    .note{margin-top:26px;color:#6f7689;font-size:.8rem;text-align:center;line-height:1.6}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <img src="logo.png" alt="CrownVolt Electrical" class="logo" />
+    <h1>Job Done</h1>
+    <p class="sub">Send this customer a Google review request.<br />They'll get a text 2 hours from now.</p>
+
+    <form id="jobForm" autocomplete="off">
+      <div class="field">
+        <label for="cname">Customer First Name</label>
+        <input type="text" id="cname" name="customer_name" placeholder="Sarah" required />
+      </div>
+      <div class="field">
+        <label for="cphone">Mobile Number</label>
+        <input type="tel" id="cphone" name="customer_phone" inputmode="numeric" placeholder="0412 345 678" required />
+      </div>
+      <button type="submit" id="btn">Send Review Request</button>
+    </form>
+
+    <div class="msg ok"  id="ok">Done. <span id="okName">They</span> will get the review text in 2 hours.</div>
+    <div class="msg bad" id="bad"><span id="badText">Something went wrong. Try again, or check with Josh.</span></div>
+
+    <p class="note">Add this page to your home screen so it's one tap after every job.</p>
+  </div>
+
+<script>
+  // Must match SHARED_TOKEN in the n8n workflow "CrownVolt - Review Request".
+  var SHARED_TOKEN = 'REPLACE_WITH_SHARED_TOKEN';
+  var WEBHOOK = 'https://jhammond.app.n8n.cloud/webhook/crownvolt-review-request';
+
+  var form = document.getElementById('jobForm'),
+      btn  = document.getElementById('btn'),
+      ok   = document.getElementById('ok'),
+      bad  = document.getElementById('bad');
+
+  // Same AU mobile rule the n8n workflow enforces — catch it here so Lucas gets an
+  // instant answer instead of a silent server-side rejection he never sees.
+  function normalise(v) {
+    var r = String(v || '').replace(/[^0-9+]/g, '');
+    if (/^\+614\d{8}$/.test(r)) return r;
+    if (/^614\d{8}$/.test(r))   return '+' + r;
+    if (/^04\d{8}$/.test(r))    return '+61' + r.slice(1);
+    if (/^4\d{8}$/.test(r))     return '+61' + r;
+    return null;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    ok.classList.remove('show'); bad.classList.remove('show');
+
+    var name  = document.getElementById('cname').value.trim();
+    var phone = normalise(document.getElementById('cphone').value);
+
+    if (!phone) {
+      document.getElementById('badText').textContent =
+        "That doesn't look like an Australian mobile. It should start with 04.";
+      bad.classList.add('show');
+      return;
+    }
+
+    btn.disabled = true; btn.textContent = 'Sending…';
+
+    fetch(WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: SHARED_TOKEN, customer_name: name, customer_phone: phone })
+    })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      document.getElementById('okName').textContent = name || 'They';
+      ok.classList.add('show');
+      form.reset();
+    })
+    .catch(function () {
+      document.getElementById('badText').textContent =
+        'Could not send. Check your signal and try again — nothing was sent to the customer.';
+      bad.classList.add('show');
+    })
+    .finally(function () {
+      btn.disabled = false; btn.textContent = 'Send Review Request';
+    });
+  });
+</script>
+</body>
+</html>
