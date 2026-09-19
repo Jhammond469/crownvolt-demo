@@ -186,14 +186,30 @@
         <span class="section-label fade-up">Reviews</span>
         <h2 class="section-title fade-up d1" style="max-width:none;margin:0 auto;">What Our Clients Say</h2>
       </div>
-      <div class="reviews-placeholder fade-up d2">
+      <!-- Live Google reviews mount. Populated automatically by js/reviews.js from the
+           shared n8n workflow once CrownVolt's Google profile has qualifying reviews.
+           Until then this stays empty and the honest placeholder below remains visible. -->
+      <div data-syntra-reviews data-client="crownvolt" data-max="6" data-placeholder="#reviewsPlaceholder"></div>
+
+      <div class="reviews-placeholder fade-up d2" id="reviewsPlaceholder">
         <div class="icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
         </div>
         <h3>Real Google Reviews Coming Soon</h3>
         <p>CrownVolt is a growing business — the reviews will show up here as soon as they land. Ask Lucas for recent job references in the meantime.</p>
+        <!-- The "Leave a Review" button that was here pointed at
+             https://g.page/r/CYGblzwC0CGHEAE/review, which does not resolve — verified
+             2026-09-19 in a real browser, it dead-ends on the Google homepage. CrownVolt has
+             no published Google Business Profile yet (no knowledge panel, no map pack), so no
+             valid review link can exist. Sending customers to a dead link is worse than not
+             asking, so it's a phone CTA until the profile is live.
+
+             WHEN LUCAS'S GBP IS PUBLISHED, the review link goes in exactly two places:
+               1. here, restored as the button below
+               2. REVIEW_LINK in the n8n workflow "CrownVolt - Review Request"
+             Get it from the Business Profile: Read reviews > Get more reviews > copy link. -->
         <p style="margin-top:16px;">
-          <a href="https://g.page/r/CYGblzwC0CGHEAE/review" target="_blank" rel="noopener" class="btn btn-primary">Already a customer? Leave a Review</a>
+          <a href="tel:0430064848" class="btn btn-primary">Call Lucas — 0430 064 848</a>
         </p>
       </div>
     </div>
@@ -358,5 +374,6 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/reviews.js" defer></script>
 </body>
 </html>
