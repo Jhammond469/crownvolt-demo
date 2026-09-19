@@ -82,19 +82,45 @@ updated to match — check that file too before assuming an old filename is stil
 
 **No real Google reviews still** — Reviews section stays an honest "coming soon" placeholder.
 
-## Contact forms — demo-safe, not wired to a real backend
-Every form (hero lead form + contact page form) is **client-side success only** — no n8n
-webhook, no email. This is deliberate: CrownVolt hasn't signed on, so there's nothing real to
-send submissions to yet. **Wire this up for real once Lucas actually converts** — same pattern
-as every other Syntra client site (real n8n webhook + honeypot + verified test submission). Watch
-for the exact field-name-mismatch bug found and fixed on SEQ DirtWorx's form this session (form
-field names must match the n8n email template's expected variables exactly) — check this
-carefully when building the real workflow, don't just copy-paste blind.
+## Contact forms — real, wired to production, 2026-08-25
+All three forms (hero lead form on `index.html`, the contact page form, and `landing.html`'s
+standalone form) now POST real submissions to `https://jhammond.app.n8n.cloud/webhook/crownvolt-contact`
+— a new n8n workflow ("CrownVolt - Contact Form", duplicated from ProCircuit's proven pattern),
+Resend SMTP, notifying `admin@crownvolt.com.au`. Each form has a honeypot (`_hp`) and a real
+error state (`heroFormError`/`formError`/`form-error`) that surfaces "please call Lucas directly"
+if the webhook fails, rather than always claiming success — matches the ProCircuit pattern, not
+the older SEQ DirtWorx pattern that silently claimed success regardless. `main.js` now carries
+the real fetch logic (was previously a demo-only stub); `landing.html` has its own inline copy
+since it doesn't load `main.js`.
 
-## No GA4 / event tracking yet
-Deliberately not installed — CrownVolt isn't a real property yet. Add a GA4 property + the
-`click_to_call`/`form_submit` event tracking pattern (see [[client_analytics_system]]) once they
-sign on, matching every other live client site.
+**Verified with real end-to-end test submissions, not just "got a 200 back"** — checked Resend's
+own Emails log after each test, confirmed `Delivered` to `admin@crownvolt.com.au` with the actual
+rendered content, not just an accepted webhook response.
+
+**Real bug found and fixed while verifying — this is the important part.** The first real test
+delivered successfully but the email body was completely unusable: every `{{ $json.body.x }}`
+expression showed up as literal raw text, not the actual submitted values. Root cause: the
+"Send an Email" node's Subject and HTML fields were both left in n8n's **"Fixed" mode** (inherited
+from the ProCircuit template this was duplicated from) — Fixed mode never evaluates `{{ }}`
+expressions at all, even though it looks like it should. Switched both fields to **"Expression"**
+mode, re-tested, confirmed the email now renders real submitted data correctly.
+
+**This is very likely a live, ongoing bug on Powerluxe's, ProCircuit's and SEQ DirtWorx's actual
+contact-form workflows too** — checked one recent real Powerluxe lead email in Resend and it shows
+the exact same raw unrendered `{{ }}` text. That means real customer leads for real paying clients
+may have been arriving as blank templates for as long as those workflows have been live. Flagged
+directly to Josh, not fixed unprompted — those are live production workflows for other clients,
+out of scope for a CrownVolt-only task without his go-ahead. If asked to fix: same one-toggle
+change (Fixed → Expression) on the Subject and HTML fields of each client's "Send an Email" node,
+already proven safe and correct on CrownVolt's copy.
+
+## GA4 tracking — live, 2026-08-25
+New GA4 property "CrownVolt Electrical" (Measurement ID `G-M3LS2122NC`), Home & Garden / Small
+business / Generate leads. Tracking snippet + `click_to_call` event listener added to all 5 real
+pages (`index`/`about`/`services`/`contact`/`landing` — `dashboard.html` deliberately excluded,
+it has no forms or tel-links, nothing to track). `form_submit` events fire from the same submit
+handlers that POST to the webhook. Matches the pattern in [[client_analytics_system]] used on
+every other live client site.
 
 ## Deployed
 - **Live at the real domain:** https://crownvolt.com.au and https://www.crownvolt.com.au —
@@ -121,11 +147,26 @@ sign on, matching every other live client site.
   session — this cutover was purely the DNS-record change on Wix's side.
 
 ## Next steps (priority order)
-1. Get Lucas to actually pick a tier via `syntrasoftware.com/get-started` and pay — the site
-   going live ahead of that was a deliberate goodwill/momentum move, not a signal the deal is
-   done. Don't treat this as closed.
-2. Once he picks a tier: replace demo-safe forms with a real n8n webhook (checking field names
-   carefully — see the SEQ DirtWorx field-name bug in [[client_analytics_system]]), add a real
-   GA4 property + event tracking, and get real facts/photos directly from him if there's
-   anything better than what's already here.
-3. If real Google reviews land, replace the "coming soon" placeholder.
+1. **Send Lucas the proposal.** He submitted the Get Started form 2026-08-25 9:21pm — picked
+   **Growth** + ticked "Extra automation" with the note "Automatic review link send to client."
+   Built two documents 2026-08-26, both at the **old signed rate** ($1,997 + $197/mo, Josh's
+   explicit call over the new proposed $2,997/$247 in `agency-os/standards/pricing.md`), both
+   treating the "extra automation" ask as already covered by Growth's standard Google
+   review-request workflow rather than a separate paid line:
+   - `Business/Proposal - CrownVolt Electrical.pdf` — client-facing, branded to match
+     `Syntra Design & Direction/Syntra-Services-Reference.pdf`'s look (dark navy + purple accent
+     Syntra brand system, built from the real `--brand-*` tokens in
+     `Syntra-Website-Final/app/globals.css`). This is the one to actually send Lucas.
+   - `Business/Service Agreement - CrownVolt Electrical.md` — the signable agreement, same
+     template as NXT LVL/Young Renewal, for after he confirms.
+   **Worth Josh confirming with Lucas directly that "extra automation" is what he meant** before
+   treating it as settled — his note was a paraphrase, not a spec, and both documents currently
+   assume that read. Still needs: Josh to send the PDF, then follow up with the agreement once
+   Lucas confirms.
+2. Once signed, collect payment and content within the timelines the agreement states.
+3. Get real facts/photos directly from Lucas if there's anything better than what's already here.
+4. If real Google reviews land, replace the "coming soon" placeholder.
+4. (Separate, cross-client, not a CrownVolt task) Josh authorized applying the same
+   Fixed→Expression n8n fix to Powerluxe/ProCircuit/SEQ DirtWorx's contact-form workflows —
+   deferred to a following session, not done yet. See [[client_analytics_system]] for the
+   pickup point, not here.

@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Standalone ads/DM landing page — duplicates homepage content, kept out of organic
+# search so it can't compete with the real site. Paid traffic is unaffected.
+Disallow: /landing.html
+
+# Ops Dashboard preview — example/sample data only, not real CrownVolt figures.
+Disallow: /dashboard.html
+
+Sitemap: https://crownvolt.com.au/sitemap.xml

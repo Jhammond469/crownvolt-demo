@@ -4,8 +4,8 @@
      area, and every photo are CrownVolt's own — 10 from photos Lucas supplied directly, 2 from
      their Instagram (@crownvolt.electrical, credited job: World's Gym Flagstone, 15 Aug 2026).
      No real Google reviews exist yet — Reviews section is an honest "coming soon" placeholder,
-     not fabricated. Contact form is demo-safe (client-side only) — CrownVolt hasn't signed on
-     yet, so there's no real n8n webhook to wire up. Owner "Lucas" confirmed by Joshua 2026-08-08. -->
+     not fabricated. Contact forms are LIVE — they POST to the real n8n webhook
+     (crownvolt-contact) and notify admin@crownvolt.com.au via Resend, wired 2026-08-25. Owner "Lucas" confirmed by Joshua 2026-08-08. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +30,42 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <!-- Local SEO: structured data. Every field here is verified CrownVolt info — phone, email,
+       service area, socials and the five real service categories from services.html. No opening
+       hours, street address, licence number or review data is asserted, because none is published
+       anywhere and inventing it would be fabrication. Add them here if/when they're confirmed. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Electrician",
+    "@id": "https://crownvolt.com.au/#business",
+    "name": "CrownVolt Electrical",
+    "url": "https://crownvolt.com.au/",
+    "telephone": "+61430064848",
+    "email": "admin@crownvolt.com.au",
+    "image": "https://crownvolt.com.au/images/garage-hexagon-led-lighting.jpg",
+    "logo": "https://crownvolt.com.au/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "QLD",
+      "addressCountry": "AU"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Brisbane" },
+      { "@type": "AdministrativeArea", "name": "South East Queensland" }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/crownvolt.electrical/"
+    ],
+    "makesOffer": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Residential Electrical" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Electrical" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Switchboards & Safety" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hot Water Systems" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Feature & Outdoor Lighting" } }
+    ]
+  }
+  </script>
 </head>
 <body>
 
