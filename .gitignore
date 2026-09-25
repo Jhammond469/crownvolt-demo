@@ -4,3 +4,7 @@ Photo's/
 # Internal Syntra planning — pricing, margins, unsigned-agreement notes and other
 # clients' details. This repo is PUBLIC; keep business docs out of it.
 BUILD-PLAN.md
+
+# Client identity/KYC documents must NEVER be committed — this repo is PUBLIC.
+# ASIC extracts carry the director's DOB, birthplace and home address.
+*.pdf

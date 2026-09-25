@@ -197,19 +197,19 @@
         </div>
         <h3>Real Google Reviews Coming Soon</h3>
         <p>CrownVolt is a growing business — the reviews will show up here as soon as they land. Ask Lucas for recent job references in the meantime.</p>
-        <!-- The "Leave a Review" button that was here pointed at
-             https://g.page/r/CYGblzwC0CGHEAE/review, which does not resolve — verified
-             2026-09-19 in a real browser, it dead-ends on the Google homepage. CrownVolt has
-             no published Google Business Profile yet (no knowledge panel, no map pack), so no
-             valid review link can exist. Sending customers to a dead link is worse than not
-             asking, so it's a phone CTA until the profile is live.
+        <!-- RESOLVED 2026-09-22. CrownVolt's Google Business Profile is now published and
+             verified, and Syntra holds Manager access. The real review link below was taken
+             from the profile's own "Get more reviews" panel and VERIFIED in a real browser —
+             it opens CrownVolt's review dialog.
 
-             WHEN LUCAS'S GBP IS PUBLISHED, the review link goes in exactly two places:
-               1. here, restored as the button below
-               2. REVIEW_LINK in the n8n workflow "CrownVolt - Review Request"
-             Get it from the Business Profile: Read reviews > Get more reviews > copy link. -->
+             The previous link here (https://g.page/r/CYGblzwC0CGHEAE/review) dead-ended on
+             the Google homepage and had been live since the 2026-08-2x commit. Do not change
+             this link without opening it in a browser first. The same link is also set as
+             REVIEW_LINK in the n8n workflow "CrownVolt - Review Request" — keep the two in
+             sync. Source: Business Profile > Ask for reviews > Review link. -->
         <p style="margin-top:16px;">
-          <a href="tel:0430064848" class="btn btn-primary">Call Lucas — 0430 064 848</a>
+          <a href="https://g.page/r/Cb6abd8EnOjqEBM/review" class="btn btn-primary" target="_blank" rel="noopener">Leave a Google Review</a>
+          <a href="tel:0430064848" class="btn btn-dark" style="margin-left:8px;">Call Lucas — 0430 064 848</a>
         </p>
       </div>
     </div>

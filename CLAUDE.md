@@ -1,18 +1,49 @@
 # CrownVolt Electrical — Project Context
 
-## Status: LIVE at real domain — still not signed/paid
-**2026-08-25: site taken live at Lucas's real domain, crownvolt.com.au.** Josh got Lucas's Wix
-login and asked to make the rebuilt site live ahead of any tier pick/payment (explicit call —
-Lucas hasn't signed or paid yet). Domain now points at the Vercel deployment instead of the old
-Wix placeholder — see "Deployed" section below for exact DNS changes made.
+## Status as at 2026-09-23: LIVE, PAID, and in delivery
 
-Lucas has engaged (2026-08-24): gave Josh his Wix login so Josh could build the real site.
-Josh still needs to send Lucas the `syntrasoftware.com/get-started` link for him to pick a
-tier/bolt-ons — payment happens after that. **Not a done deal yet** — no tier picked, no payment,
-site is live as a courtesy/momentum move, not because the deal closed.
+Lucas paid the **$1,497** setup on 2026-09-19. Package is **Growth — $1,497 setup + $197/mo**
+(reduced from the standard $1,997). Site live at `crownvolt.com.au` since 2026-08-25.
 
-The get-started form's SendGrid outage (see [[client_analytics_system]]) is fully fixed —
-switched to Resend, confirmed delivering. No longer a blocker for sending Lucas this link.
+**Everything in the proposal is delivered except the two SMS workflows**, which are built,
+unit-tested and inert, waiting on a Twilio AU carrier registration queue (~29 Sep). Nothing
+else is outstanding on our side.
+
+### Google Business Profile — Syntra manages it (Manager access on jhammond469@gmail.com)
+
+Done 2026-09-23:
+- **Service area fixed** — "Queensland, Australia" deleted (it dragged the Maps pin to inland
+  North QLD, ~1,000km away). 18 SEQ suburbs kept. Verified: the knowledge-panel map now renders
+  a tight Brisbane / Gold Coast / Tweed Heads area.
+- **Business description added** — 719 chars, from the site's own copy.
+- **Square profile picture created** — `images/crownvolt-profile-1024.png`. His `logo.png` is a
+  1032×494 banner that Google's square/circular slot would crop badly.
+
+Open:
+- **Photos.** He has **no logo, no cover photo and no photos at all** — the biggest visual win
+  left. 12 files staged ready to drag, numbered in upload order, at
+  `Documents/Syntra/Business/CrownVolt - GBP upload/`.
+  **Claude cannot upload these** — the dialogs are a cross-origin iframe with a hidden src, and
+  the only alternative is a native OS file picker. Don't retry; see [[crownvolt_demo]] memory
+  for the four approaches already ruled out.
+- Service descriptions (each service exists but has an empty 0/300 description), first Google Post.
+- **Do NOT connect his LinkedIn** — Josh's instruction, 2026-09-23.
+
+### Live Google reviews — wired 2026-09-23
+
+Place ID **`ChIJbT3c6R6qnQ4Rvppt3wSc6Oo`** (derived from the feature ID, verified against
+`search.google.com/local/reviews`). He is in the published shared workflow
+`Syntra - Google Reviews (All Clients)`. He has zero reviews, so the site correctly shows its
+placeholder and will populate on its own. Nothing further to do.
+
+### Known, unfixed (cosmetic)
+
+Extensionless URLs 404 — `/about` vs `/about.html`. The site's own nav uses `.html`, so nothing
+is broken; a `vercel.json` rewrite would tidy it.
+
+---
+
+*History below.*
 
 ## Prospect
 - **Business:** CrownVolt Electrical
