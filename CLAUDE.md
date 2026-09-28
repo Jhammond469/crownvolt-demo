@@ -1,13 +1,37 @@
 # CrownVolt Electrical — Project Context
 
-## Status as at 2026-09-23: LIVE, PAID, and in delivery
+## Status as at 2026-09-28: LIVE, PAID, SMS PROVEN — one gap left (call forwarding)
 
 Lucas paid the **$1,497** setup on 2026-09-19. Package is **Growth — $1,497 setup + $197/mo**
 (reduced from the standard $1,997). Site live at `crownvolt.com.au` since 2026-08-25.
 
-**Everything in the proposal is delivered except the two SMS workflows**, which are built,
-unit-tested and inert, waiting on a Twilio AU carrier registration queue (~29 Sep). Nothing
-else is outstanding on our side.
+**Every proposal item is now delivered and verified except one: conditional call forwarding
+on Lucas's handset.** All three SMS workflows are live and proven against real Twilio traffic.
+
+### Verified 2026-09-28 against Twilio's own logs (not a form field)
+
+| Piece | Evidence |
+|---|---|
+| Missed-call text-back | Call `CA25c793719c8c6656ef5eae518d0c10ee` → Request Inspector shows `POST` to the n8n webhook returning **200** in 636ms at `01:41:46 UTC`; outbound SMS **Delivered** at `01:41:48 UTC` |
+| SMS reply forwarder | Proven 2026-09-27 from a real handset, context line correct |
+| Review-request SMS | Live, received, `g3HsXQelI77EJSMa` |
+| Site | `crownvolt.com.au` + www + all four pages → 200 |
+| Reviews endpoint | `/webhook/reviews?client=crownvolt` → 200, empty array (correct — zero reviews) |
+
+### ⛔ The one real gap: call forwarding (Step 7 of the SMS runbook)
+
+Twilio only ever sees a call that Lucas's phone forwards to it. **The MMI codes have never
+been dialled on any handset.** Until they are, missed-call text-back cannot fire for a real
+customer no matter how healthy the webhook is. Needs Lucas's carrier confirmed first
+(Telstra/Optus/Vodafone differ on conditional-forwarding defaults and the no-answer timer).
+Prove on Josh's phone before Lucas's.
+
+### Twilio console trap — cost most of 2026-09-27
+
+An expired console session makes the number-configure form accept input, show it back after a
+reload, and **never write it**. Only a CORS preflight goes out. The Voice URL read correctly
+for days while callers heard Twilio's demo greeting. Verify via Monitor → Logs → Calls →
+Request Inspector, or a real call. Never via the form field.
 
 ### Google Business Profile — Syntra manages it (Manager access on jhammond469@gmail.com)
 
@@ -19,10 +43,13 @@ Done 2026-09-23:
 - **Square profile picture created** — `images/crownvolt-profile-1024.png`. His `logo.png` is a
   1032×494 banner that Google's square/circular slot would crop badly.
 
+Also done 2026-09-23: **6 service descriptions** filled and the **first Google Post**
+published. (Not re-confirmed visually since; worth an eyeball next time GBP is open.)
+
 Open:
 - **Photos.** He has **no logo, no cover photo and no photos at all** — the biggest visual win
   left. 12 files staged ready to drag, numbered in upload order, at
-  `Documents/Syntra/Business/CrownVolt - GBP upload/`.
+  `Documents/Syntra/Business/CrownVolt/GBP upload/`.
   **Claude cannot upload these** — the dialogs are a cross-origin iframe with a hidden src, and
   the only alternative is a native OS file picker. Don't retry; see [[crownvolt_demo]] memory
   for the four approaches already ruled out.
