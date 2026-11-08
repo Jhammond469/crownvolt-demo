@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    { "source": "/card", "destination": "/card.html" }
+  ],
+  "headers": [
+    {
+      "source": "/lucas.vcf",
+      "headers": [
+        { "key": "Content-Type", "value": "text/vcard; charset=utf-8" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"Lucas Anticevic - CrownVolt.vcf\"" }
+      ]
+    }
+  ]
+}
