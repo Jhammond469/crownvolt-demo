@@ -134,7 +134,11 @@ body[data-btn="lw"] .calnav .btn:not(.arrow) { min-height: 40px; padding: 0 10px
 body[data-btn="lw"] .calnav b { min-width: 0; }
 
 /* ── header: the status button is also refresh ── */
-body[data-btn="lw"] #refresh { display: none !important; }
+/* refresh: the same round icon button in every app (Josh 15 Nov) */
+body[data-btn="lw"] #refresh { width: 38px; min-height: 38px; height: 38px; padding: 0; gap: 0; border-radius: 50%; font-size: 0; color: var(--fog, #C9CCD3); flex: none; }
+body[data-btn="lw"] #refresh svg { width: 17px; height: 17px; }
+body[data-btn="lw"] #refresh.spin svg, body[data-btn="lw"] #refresh.lw-spin svg { animation: lw-spin .8s linear infinite; }
+@keyframes lw-spin { to { transform: rotate(360deg); } }
 body[data-btn="lw"] #conn-chip { min-height: 38px; padding: 0 14px 0 12px; border-radius: 12px; font-size: 13px; color: var(--fog); --lw-wc: var(--live); }
 body[data-btn="lw"] #clock { border: 0; background: none; padding: 0 4px; color: var(--smoke); font-size: 13px; font-weight: 700; }
 body.syncing #conn-chip .dot { animation: lw-blink .9s ease-in-out infinite; }
@@ -192,6 +196,19 @@ body[data-btn="lw"] .seg { gap: 0; }
 /* no focus ring when a sheet opens or a finger taps; keyboard users still get one, in the accent */
 body[data-btn="lw"] :where(button, .btn):focus:not(:focus-visible) { outline: none; }
 body[data-btn="lw"] :where(button, .btn):focus-visible { outline: 2px solid var(--lw-accent); outline-offset: 3px; }
+
+/* ── header: the same compact size in every app (Josh 15 Nov: "make all the headers the same size as Trade Scout's") ── */
+body[data-btn="lw"] .top-in { min-height: 52px; padding-top: 10px; padding-bottom: 4px; }
+body[data-btn="lw"] .hello.banner { margin: 8px 0 6px; padding: 12px 16px; gap: 4px; border-radius: 20px; min-height: 0; }
+body[data-btn="lw"] .hello.banner .eyebrow { display: none; }
+body[data-btn="lw"] .hello.banner h1 { font-size: 24px; line-height: 1.1; }
+body[data-btn="lw"] .hello.banner .sum { font-size: 13.5px; line-height: 1.35; margin: 0; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+body[data-btn="lw"] .hello.banner .hstrip { font-size: 12.5px; gap: 2px 12px; flex-wrap: nowrap; white-space: nowrap; overflow: hidden; }
+body[data-btn="lw"] .banner-bg span { font-size: 40px; }
+body[data-btn="lw"] .quick { padding: 0 0 6px; gap: 6px; }
+body[data-btn="lw"] .qc { padding: 8px 10px; border-radius: 16px; min-height: 0; }
+body[data-btn="lw"] .qc .qi { width: 28px; height: 28px; font-size: 14px; }
+body[data-btn="lw"] .qc .qt b { font-size: 13.5px; } body[data-btn="lw"] .qc .qt small { font-size: 11.5px; }
 
 body[data-btn="lw"] { --lw-accent: var(--cv-gold); }
 </style>
@@ -433,6 +450,8 @@ body[data-btn="lw"] { --lw-accent: var(--cv-gold); }
       anim(svg, [{ transform: 'rotate(0) scale(1)' }, { transform: 'rotate(90deg) scale(.8)' }, { transform: 'rotate(90deg) scale(1)' }], { duration: 420, easing: SPRING });
     } else if (el.matches('.fsb') && svg) {
       anim(svg, [{ transform: 'scale(1)' }, { transform: 'scale(1.22)' }, { transform: 'scale(1)' }], { duration: 480, easing: SPRING });
+    } else if (id === 'refresh' && svg) {
+      el.classList.add('lw-spin'); setTimeout(() => el.classList.remove('lw-spin'), 900);
     } else if (id === 'conn-chip') {
       const d = el.querySelector('.dot'); anim(d, [{ transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(126,224,170,.7)' }, { transform: 'scale(1.5)', boxShadow: '0 0 0 8px rgba(126,224,170,0)' }, { transform: 'scale(1)' }], { duration: 700, easing: 'ease-out' });
     } else if (id === 'inv' || id === 'f-inv') {
